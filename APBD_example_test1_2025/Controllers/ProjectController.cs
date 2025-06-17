@@ -7,20 +7,20 @@ namespace APBD_example_test1_2025.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomersController : ControllerBase
+    public class ProjectController : ControllerBase
     {
         private readonly IDbService _dbService;
-        public CustomersController(IDbService dbService)
+        public ProjectController(IDbService dbService)
         {
             _dbService = dbService;
         }
 
-        [HttpGet("{id}/rentals")]
+        [HttpGet("{id}/projects")]
         public async Task<IActionResult> GetCustomerRentals(int id)
         {
             try
             {
-                var res = await _dbService.GetRentalsForCustomerByIdAsync(id);
+                var res = await _dbService.GetProjectDetailsByIdAsync(id);
                 return Ok(res);
             }
             catch (NotFoundException e)
@@ -29,17 +29,12 @@ namespace APBD_example_test1_2025.Controllers
             }
         }
 
-        [HttpPost("{id}/rentals")]
-        public async Task<IActionResult> AddNewRental(int id, CreateRentalRequestDto createRentalRequest)
+        [HttpPost("{id}/artifacts")]
+        public async Task<IActionResult> AddNewRental(int id, CreateNewArtifactAndProjectDto createNewArtifactAndProject)
         {
-            if (!createRentalRequest.Movies.Any())
-            {
-                return BadRequest("At least one item is required.");
-            }
-
             try
             {
-                await _dbService.AddNewRentalAsync(id, createRentalRequest);
+                await _dbService.AddNewArtifactAndProjectAsync(createNewArtifactAndProject);
             }
             catch (ConflictException e)
             {
@@ -50,7 +45,7 @@ namespace APBD_example_test1_2025.Controllers
                 return NotFound(e.Message);
             }
             
-            return CreatedAtAction(nameof(GetCustomerRentals), new { id }, createRentalRequest);
+            return CreatedAtAction(nameof(GetCustomerRentals), createNewArtifactAndProject);
         }    
     }
 }

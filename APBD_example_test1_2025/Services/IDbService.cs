@@ -4,6 +4,6 @@ namespace APBD_example_test1_2025.Services;
 
 public interface IDbService
 {
-    Task<CustomerRentalHistoryDto> GetRentalsForCustomerByIdAsync(int customerId);
-    Task AddNewRentalAsync(int customerId, CreateRentalRequestDto rentalRequest);
+    Task<GetProjectDetailsDto> GetProjectDetailsByIdAsync(int customerId);
+    Task AddNewArtifactAndProjectAsync(CreateNewArtifactAndProjectDto newArtifactAndProjectAndProject);
 }
