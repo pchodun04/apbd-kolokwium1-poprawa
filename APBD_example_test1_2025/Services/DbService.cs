@@ -150,7 +150,5 @@ public class DbService : IDbService
             await transaction.RollbackAsync();
             throw;
         }
-        
-
     }
 }
